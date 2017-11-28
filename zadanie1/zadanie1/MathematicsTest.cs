@@ -9,15 +9,22 @@ namespace zadanie1
 {
     public class MathematicsTest
     {
-        [Fact]
-        public void Add_returns_sum_of_given_values()
+        [Theory]
+        [InlineData(10, 20, 30)]
+        [
+        InlineData(-10, 10, 0),
+        InlineData(30, 40, 70),
+        InlineData(-20, -10, -30),
+        InlineData(-0d, 0d, -0d)]
+
+        public void TheoryExample(double x, double y, double expected)
         {
             //arrange
             var math = new Mathematic();
             //act
-            var result = math.Add(10, 20);
+            var result = math.Add(x, y);
             //assert
-            Assert.Equal(30, result);
+            Assert.Equal(expected, result);
 
         }
         [Fact]
