@@ -43,7 +43,7 @@ namespace SeleniumTests
             driver.FindElement(By.LinkText("Akceptuję")).Click();
             Thread.Sleep(2000);
             driver.FindElement(By.LinkText("Poznaj nasze podejście")).Click();
-            Console.ReadKey();
+            //Console.ReadKey();
 
         Assert.Contains("WIEDZA NA PIERWSZYM MIEJSCU", driver.PageSource);
         }
