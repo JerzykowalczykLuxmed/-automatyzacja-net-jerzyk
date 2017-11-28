@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
+using System.Threading;
 
 namespace SeleniumTests
 {
@@ -35,12 +36,28 @@ namespace SeleniumTests
             driver.FindElement(By.Id("lst-ib")).Submit();
             driver.FindElement(By.LinkText("Code Sprinters -")).Click();
             var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
-            // ERROR: Caught exception [ERROR: Unsupported command [selectWindow | name=@color | ]]
-            //Assert.AreEqual("Code Sprinters -", driver.Title);
-            Assert.NotNull(element);
-            driver.FindElement(By.LinkText("Szkolenia")).Click();
+            var elements = driver.FindElements(By.LinkText("Poznaj nasze podejście"));
+            Assert.Single(elements);
+            //WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            //wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText("Akceptuję"), "Akceptuję"));
+            driver.FindElement(By.LinkText("Akceptuję")).Click();
+            Thread.Sleep(2000);
+            driver.FindElement(By.LinkText("Poznaj nasze podejście")).Click();
             Console.ReadKey();
+
+        Assert.Contains("WIEDZA NA PIERWSZYM MIEJSCU", driver.PageSource);
         }
+        protected void waitForElementPresent(By by, int seconds)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(seconds));
+            wait.Until(ExpectedConditions.ElementToBeClickable(by));
+        }
+        
+        //protected void waitForElementPresent(IWebElement by, int seconds)
+        //{
+        //    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(seconds));
+        //    wait.Until(ExpectedConditions.ElementToBeClickable(by));
+        //}
         //private bool IsElementPresent(By by)
         //{
         //    try
