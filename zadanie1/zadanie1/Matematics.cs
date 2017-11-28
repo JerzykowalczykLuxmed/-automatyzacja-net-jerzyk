@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace zadanie1
 {
-    public class Matematyka
+    public class Mathematic
     {
         public double Add(double x, double y)
         {
