@@ -14,10 +14,16 @@ namespace PageObjectTests
         {
             MainPage.Open();
             MainPage.OpenFirsNote();
+            NotePage.AddComment(new Comment
+            {
+                Text = "Lorem ipsum dolor sit",
+                Mail = "test@mail.pl",
+                User = "Jerzy Testowy"
+            });
 
             // + wejdz na stronę bloga
             // + otwórz pierwszą notkę
-            //dodaj komentarz
+            // + dodaj komentarz
             //sprawdź, że komentarz się dodał
         }
         public void Dispose()
