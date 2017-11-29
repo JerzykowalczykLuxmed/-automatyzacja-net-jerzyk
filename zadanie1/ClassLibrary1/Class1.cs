@@ -15,7 +15,7 @@ namespace SeleniumTests
     {
         private const string SearchTextBoxId = "lst-ib";
         private const string Google = "https://www.google.com";
-        private const string PageTitle = "Code Sprinters -";
+        private const string   = "Code Sprinters -";
         private const string TextToSearch = "code sprinters";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
