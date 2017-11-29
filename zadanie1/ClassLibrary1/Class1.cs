@@ -20,7 +20,8 @@ namespace SeleniumTests
         private IWebDriver driver;
         private StringBuilder verificationErrors;
         private const string LinkTextToFind = "Poznaj nasze podejście";
-
+        private const string CookiePolicyButtonText = "Akceptuję";
+        
         public SeleniumExample()
         {
             driver = new ChromeDriver();
@@ -41,17 +42,10 @@ namespace SeleniumTests
             // var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
             // Assert.NotNull(element);
 
-            var elements = GetElements(LinkTextToFind);
-            Assert.Single(elements);
+            
 
-            driver.FindElement(By.LinkText("Akceptuję")).Click();
-
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(11));
-            wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText("Akceptuję"), "Akceptuję"));
-
-            WaitForClickable(By.LinkText("Poznaj nasze podejście"), 5);
-
-            driver.FindElement(By.LinkText("Poznaj nasze podejście")).Click();
+            AcceptCookiePolicy();
+            GoToNextPage(LinkTextToFind);
 
             // ver 1
             Assert.Contains("WIEDZA NA PIERWSZYM MIEJSCU", driver.PageSource);
@@ -61,6 +55,22 @@ namespace SeleniumTests
             Assert.Single(driver.FindElements(By.TagName("h2"))
                 .Where(tag => tag.Text == "WIEDZA NA PIERWSZYM MIEJSCU"));
 
+
+        }
+
+        private void GoToNextPage(string nextpage)
+        {
+            Assert.Single(GetElements(nextpage));
+            WaitForClickable(By.LinkText(nextpage), 5);
+            driver.FindElement(By.LinkText(nextpage)).Click();
+        }
+
+        private void AcceptCookiePolicy()
+        {
+            By CookiePolicyButtonLocator = By.LinkText(CookiePolicyButtonText);
+            driver.FindElement(CookiePolicyButtonLocator).Click();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(11));
+            wait.Until(ExpectedConditions.InvisibilityOfElementWithText(CookiePolicyButtonLocator, CookiePolicyButtonText));
 
         }
 
