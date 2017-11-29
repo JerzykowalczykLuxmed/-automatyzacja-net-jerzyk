@@ -10,9 +10,10 @@ namespace SeleniumTests
 {
     public class Example : IDisposable
     {
+        private const string SearchTextBoxId = "lst-ib";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
-        private string baseURL;
+        private string Google;
         private bool AcceptNextAlert = true;
 
         public Example()
@@ -20,7 +21,7 @@ namespace SeleniumTests
 
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            baseURL = "https://www.google.pl/";
+            Google = "https://www.google.pl/";
             verificationErrors = new StringBuilder();
                      
         }
@@ -28,25 +29,35 @@ namespace SeleniumTests
 
 
         [Fact]
-        public void TheExampleTest()
+        public void NavigatingToCodeSprintersSite()
         {
-            driver.Navigate().GoToUrl(baseURL);
-            driver.FindElement(By.Id("lst-ib")).Clear();
-            driver.FindElement(By.Id("lst-ib")).SendKeys("code sprinters");
-            driver.FindElement(By.Id("lst-ib")).Submit();
+            driver.Navigate().GoToUrl(Google);
+
+            var searchBox = GetSearchBox();
+            searchBox.Clear();
+            searchBox.SendKeys("code sprinters");
+            searchBox.Submit();
+
+            
             driver.FindElement(By.LinkText("Code Sprinters -")).Click();
             var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
             var elements = driver.FindElements(By.LinkText("Poznaj nasze podejście"));
             Assert.Single(elements);
-            //WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            //wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText("Akceptuję"), "Akceptuję"));
             driver.FindElement(By.LinkText("Akceptuję")).Click();
-            Thread.Sleep(2000);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(11));
+            wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText("Akceptuję"), "Akceptuję"));
+            //Thread.Sleep(2000);
             driver.FindElement(By.LinkText("Poznaj nasze podejście")).Click();
             //Console.ReadKey();
 
-        Assert.Contains("WIEDZA NA PIERWSZYM MIEJSCU", driver.PageSource);
+            Assert.Contains("WIEDZA NA PIERWSZYM MIEJSCU", driver.PageSource);
         }
+
+        private IWebElement GetSearchBox()
+        {
+            return driver.FindElement(By.Id(SearchTextBoxId));
+        }
+
         protected void waitForElementPresent(By by, int seconds)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(seconds));
