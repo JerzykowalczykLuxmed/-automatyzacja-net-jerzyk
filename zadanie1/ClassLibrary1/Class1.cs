@@ -7,6 +7,7 @@ using OpenQA.Selenium.Chrome;
 using System.Linq;
 using OpenQA.Selenium.Firefox;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace SeleniumTests
 {
@@ -18,6 +19,7 @@ namespace SeleniumTests
         private const string TextToSearch = "code sprinters";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
+        private const string LinkTextToFind = "Poznaj nasze podejście";
 
         public SeleniumExample()
         {
@@ -36,10 +38,10 @@ namespace SeleniumTests
             GoToSearchResultByPageTitle(PageTitle);
 
 
-            var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
-            Assert.NotNull(element);
+            // var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
+            // Assert.NotNull(element);
 
-            var elements = driver.FindElements(By.LinkText("Poznaj nasze podejście"));
+            var elements = GetElements(LinkTextToFind);
             Assert.Single(elements);
 
             driver.FindElement(By.LinkText("Akceptuję")).Click();
@@ -60,6 +62,11 @@ namespace SeleniumTests
                 .Where(tag => tag.Text == "WIEDZA NA PIERWSZYM MIEJSCU"));
 
 
+        }
+
+        private IReadOnlyCollection<IWebElement> GetElements(string text)
+        {
+            return driver.FindElements(By.LinkText(text));
         }
 
         private void Search(string query)
