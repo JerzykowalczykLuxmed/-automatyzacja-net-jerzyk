@@ -25,7 +25,7 @@ namespace PageObjectTests
 
             _driver = new FirefoxDriver();
             _driver.Manage().Window.Maximize();
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
         internal static void NavigateTo(string url)
         {
@@ -39,6 +39,11 @@ namespace PageObjectTests
         internal static ReadOnlyCollection<IWebElement> FindByXpath(string xpath)
         {
             return _driver.FindElements(By.XPath(xpath));
+        }
+        internal static string ReturnPageSource()
+        {
+            string pagesource = _driver.PageSource;
+            return pagesource;
         }
 
     }

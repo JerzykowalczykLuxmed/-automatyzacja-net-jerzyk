@@ -19,5 +19,12 @@ namespace PageObjectTests
             var element = Browser.FindByXpath("//article/header");
             element.First().Click();
         }
+        internal static void OpenNewPost()
+        { 
+            var element = Browser.FindByXpath("//div[text() = 'Posts']").First();
+        element.Click();
+
+        
+        }
     }
 }
